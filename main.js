@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const mongoose = require("mongoose");
+const { signup, login } = require("./controllers/userController");
 require("dotenv").config();
 
 const app = express();
@@ -35,14 +36,9 @@ io.on("connection", (socket) => {
 
 app.use(express.static(`${__dirname}/public`));
 
-app.post("/api/v1/signup", (req, res) => {
-  console.log(req);
-  res.json(req.body);
-});
+app.post("/api/v1/signup", signup);
+app.post("/api/v1/login", login);
 
-app.get("/api/v1/login", (req, res) => {
-  res.render("login");
-});
 app.get("/stream", (req, res) => {
   res.render("stream.html");
 });
