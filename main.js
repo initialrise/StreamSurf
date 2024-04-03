@@ -2,11 +2,15 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const mongoose = require("mongoose");
-const { signup, login } = require("./controllers/userController");
+const { signup, login, protect } = require("./controllers/userController");
+const cookieParser = require("cookie-parser");
+const pug = require("pug");
 require("dotenv").config();
 
 const app = express();
 app.use(express.urlencoded());
+app.use(cookieParser());
+app.set("view engine", "pug");
 
 mongoose.connect(process.env.DB_URL).then(() => {
   console.log("Connection Successful");
@@ -36,11 +40,18 @@ io.on("connection", (socket) => {
 
 app.use(express.static(`${__dirname}/public`));
 
-app.post("/api/v1/signup", signup);
-app.post("/api/v1/login", login);
+app.post("/signup", signup);
+app.post("/login", login);
+
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
+app.get("/login", (req, res) => {
+  res.render("login");
+});
 
 app.get("/stream", (req, res) => {
-  res.render("stream.html");
+  res.render("stream");
 });
 
 server.listen(3000, () => {

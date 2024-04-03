@@ -1,0 +1,19 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Signup Form
+  link(rel='stylesheet' href='css/main.css')
+.container
+  h1 Signup
+  form(action='/signup' method="POST")
+    .form-group
+      label(for='username') Username
+      input#email(type='username' name='username' required='')
+    .form-group
+      label(for='password') Password
+      input#password(type='password' name='password' required='')
+    .form-group
+      label(for='rtmp-key') RTMP Key
+      input#rtmp-key(type='text' name='rtmp_key' required='')
+    button(type='submit') Sign Up

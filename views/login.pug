@@ -1,0 +1,21 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Login
+  link(rel='stylesheet' href='css/main.css')
+.container
+  h1 Login
+  if message
+    p.error= message
+  form(action='/login' method='POST')
+    .form-group
+      label(for='username') Username
+      input#username(type='username' name='username' required='')
+    .form-group
+      label(for='password') Password
+      input#password(type='password' name='password' required='')
+    button(type='submit') Login
+  p
+    | Don&apos;t have an account? 
+    a(href='signup.html') Sign up

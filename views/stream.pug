@@ -1,0 +1,39 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Stream Test Page
+  link(rel='stylesheet' href='css/main.css')
+h1 Steam Test Page
+video#video-element(autoplay='' muted='' width='500')
+br
+button#choose-feed Choose Feed
+button#start-stream Start Stream
+script(src='https://cdn.socket.io/4.7.5/socket.io.min.js' integrity='sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO' crossorigin='anonymous')
+script.
+  const vidEl = document.getElementById("video-element");
+  const startBtn = document.getElementById("start-stream");
+  const feedBtn = document.getElementById("choose-feed");
+  let mediaRecorder;
+  let stream;
+  startBtn.disabled = true;
+  feedBtn.addEventListener("click", async (e) => {
+  const media = await navigator.mediaDevices.getDisplayMedia({
+  audio: true,
+  video: true,
+  });
+  vidEl.srcObject = media;
+  stream = media;
+  startBtn.disabled = false;
+  });
+  startBtn.addEventListener("click", (e) => {
+  const socket = io();
+  //record stream and send it
+  console.log("Stream started");
+  mediaRecorder = new MediaRecorder(stream);
+  mediaRecorder.addEventListener("dataavailable", (e) => {
+  // console.log(e.data);
+  socket.emit("video-data", e.data);
+  });
+  mediaRecorder.start(25); //if you don't pass slice of time /mediaRecorder never stops and data available event never emits
+  });
