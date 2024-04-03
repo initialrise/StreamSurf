@@ -55,3 +55,13 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+#choose-feed,
+#start-stream {
+  width: auto;
+  padding: 10px 30px;
+}
+
+#video-element {
+  border: 1px solid black;
+  background-color: gray;
+}

@@ -32,7 +32,13 @@ const args = [
   128000 / 4,
   "-f",
   "flv",
-  `rtmp://a.rtmp.youtube.com/live2/${process.env.STREAM_KEY}`,
 ];
 
-module.exports = ffmpegChildProcess = spawn("ffmpeg", args);
+const createChildProcess = (rtmp_key) => {
+  const rmtp_url = `rtmp://a.rtmp.youtube.com/live2/${rtmp_key}`,
+    new_args = [...args, rmtp_url];
+  console.log(new_args);
+  return spawn("ffmpeg", new_args);
+};
+// module.exports = ffmpegChildProcess = spawn("ffmpeg", args);
+module.exports = createChildProcess;
